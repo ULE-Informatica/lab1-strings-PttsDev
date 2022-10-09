@@ -91,6 +91,12 @@ void gets_example_func(void) {
 }
 
 /*
+* COMPILATION WARNING AND ERRORS
+*
+* using g++ -Wall
+* error: invalid conversion from ‘const char*’ to ‘char*’ [-fpermissive]
+*
+*
 * BROKEN RULES AND RECOMENDATIONS
 * STR30-C. Do not attempt to modify string literals
 * since the argument of strrchr points to a string literal the behavior is undefined
@@ -109,6 +115,18 @@ const char *get_dirname(const char *pathname) {
 
 
 /*
+* COMPILATION WARNING AND ERRORS
+* ------------------------------
+* using -std=c99 
+* warning: gets is deprecated
+* warning: the gets function is dangerous and should not be used
+*
+* using -std=c11 
+* warning: implicit declaration of function 'gets' [-Wimplicit-function-declaration]
+*
+* Using g++ -Wall
+* error: ‘gets’ was not declared in this scope; did you mean ‘getw’?
+*
 * BROKEN RULES AND RECOMENDATIONS
 * MSC24-C. Do not use deprecated or obsolescent functions
 * gets is an obsolescent function and should not be used, instead fgets or gets_s should be used 
