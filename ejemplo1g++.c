@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stddef.h>
  
 char array1[] = "Foo" "bar";
 char array2[] = { 'F', 'o', 'o', 'b', 'a', 'r', '\0' };
@@ -30,13 +31,18 @@ int gets_example_func(void) {
   return 0;
 }
 
-const char *get_dirname(const char *pathname) {
-  char *slash;
+const char *get_dirname(const char *pathname, char *dirname, size_t size) {
+  const char *slash;
   slash = strrchr(pathname, '/');
   if (slash) {
-    *slash = '\0'; /*Undefined behavior*/
+    ptrdiff_t slash2 = slash - pathname;
+    if((size_t) slash2 < size){
+      memcpy(dirname, pathname, slash2);
+      dirname[slash2] = '\0';
+      return dirname;
+    }
   }
-  return pathname;
+  return 0;
 }
 
 
@@ -44,7 +50,7 @@ void get_y_or_n(void) {
 	char response[8];
 
 	printf("Continue? [y] n: ");  
-	gets(response);
+	fgets(response, sizeof(response), stdin);
 
 	if (response[0] == 'n') 
 		exit(0);  
@@ -66,7 +72,11 @@ int main(int argc, char *argv[])
    // char analitic1[size_array1]="аналитик";
    // char analitic2[size_array2]="аналитик";
 
-    puts(get_dirname(__FILE__));
+    char dirname[260];
+    if(get_dirname(__FILE__, dirname, sizeof(dirname))){
+      puts(dirname);
+    }
+   
 
     strcpy(key, argv[1]);  
     strcat(key, " = ");  
@@ -74,7 +84,6 @@ int main(int argc, char *argv[])
 
 
     fgets(response,sizeof(response),stdin);
-    printf("LLEGOOOOOOOOOOOOOOOOOOO");
     get_y_or_n();
 
     printf ("%s",array1);
