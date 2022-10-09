@@ -31,18 +31,13 @@ int gets_example_func(void) {
   return 0;
 }
 
-const char *get_dirname(const char *pathname, char *dirname, size_t size) {
-  const char *slash;
+const char *get_dirname(const char *pathname) {
+  char *slash;
   slash = strrchr(pathname, '/');
   if (slash) {
-    ptrdiff_t slash2 = slash - pathname;
-    if((size_t) slash2 < size){
-      memcpy(dirname, pathname, slash2);
-      dirname[slash2] = '\0';
-      return dirname;
-    }
+    *slash = '\0'; /*Undefined behavior*/
   }
-  return 0;
+  return pathname;
 }
 
 
@@ -72,10 +67,8 @@ int main(int argc, char *argv[])
    // char analitic1[size_array1]="аналитик";
    // char analitic2[size_array2]="аналитик";
 
-    char dirname[260];
-    if(get_dirname(__FILE__, dirname, sizeof(dirname))){
-      puts(dirname);
-    }
+    puts(get_dirname(__FILE__));
+    
    
 
     strcpy(key, argv[1]);  

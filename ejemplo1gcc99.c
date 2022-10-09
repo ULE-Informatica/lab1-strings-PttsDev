@@ -50,6 +50,7 @@ void get_y_or_n(void) {
 int main(int argc, char *argv[])
 {
     char key[24];
+    //char *key = malloc(sizeof(argv[1])+sizeof(argv[2]+3*sizeof(char)));
     char response[8];
     char array3[16];
     char array4[16];
@@ -58,6 +59,8 @@ int main(int argc, char *argv[])
 
    // char analitic1[size_array1]="аналитик";
    // char analitic2[size_array2]="аналитик";
+
+
 
     puts(get_dirname(__FILE__));
 
